@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Industrial Pump IoT Monitoring</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        .box {
+            background: white;
+            width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 8px;
+            width: 200px;
+        }
+
+        button {
+            padding: 12px 25px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Industrial Pump Monitoring</h1>
+
+<p>IoT Sensor Simulation</p>
+
+<input id="temperature" placeholder="Temperature">
+<input id="pressure" placeholder="Pressure">
+<input id="vibration" placeholder="Vibration">
+<input id="rpm" placeholder="RPM">
+
+<br>
+
+<button onclick="predict()">Predict Pump Status</button>
+
+<div id="result">Waiting...</div>
+
+</div>
+
+<script>
+
+function predict() {
+
+    let data = {
+        temperature: document.getElementById("temperature").value,
+        pressure: document.getElementById("pressure").value,
+        vibration: document.getElementById("vibration").value,
+        rpm: document.getElementById("rpm").value
+    };
+
+    fetch("/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+            data.prediction;
+    });
+}
+
+</script>
+
+</body>
+</html>
